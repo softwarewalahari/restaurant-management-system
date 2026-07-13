@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/restaurants")
+@CrossOrigin(origins = "*")
 @Tag(
     name = "Restaurant Management API",
     description = "CRUD Operations for Restaurant Management System"
@@ -45,8 +46,10 @@ public class RestaurantController {
 
     @Operation(summary = "Update restaurant")
     @PutMapping("/{id}")
-    public RestaurantDTO updateRestaurant(@PathVariable Long id,
-                                          @Valid @RequestBody RestaurantDTO restaurantDTO) {
+    public RestaurantDTO updateRestaurant(
+            @PathVariable Long id,
+            @Valid @RequestBody RestaurantDTO restaurantDTO) {
+
         return restaurantService.updateRestaurant(id, restaurantDTO);
     }
 
@@ -76,12 +79,12 @@ public class RestaurantController {
     }
 
     @Operation(summary = "Get restaurants with pagination and sorting")
-@GetMapping("/page")
-public List<RestaurantDTO> getRestaurantsWithPagination(
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "5") int size,
-        @RequestParam(defaultValue = "id") String sortBy) {
+    @GetMapping("/page")
+    public List<RestaurantDTO> getRestaurantsWithPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy) {
 
-    return restaurantService.getAllRestaurants(page, size, sortBy);
-}
+        return restaurantService.getAllRestaurants(page, size, sortBy);
+    }
 }
